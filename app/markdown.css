@@ -1,0 +1,65 @@
+pre > code {
+  display: grid;
+}
+
+code {
+  counter-reset: line;
+}
+
+.prose pre {
+  padding: theme("space.4") 0;
+}
+
+.prose pre .line {
+  padding: 0 theme("space.4");
+}
+
+code[data-line-numbers] > .line::before {
+  counter-increment: line;
+  content: counter(line);
+
+  /* Other styling */
+  display: inline-block;
+  width: 1rem;
+  margin-right: 2rem;
+  text-align: right;
+  color: theme("colors.gray.400");
+}
+
+code[data-line-numbers-max-digits="2"] > .line::before {
+  width: 2rem;
+}
+
+code[data-line-numbers-max-digits="3"] > .line::before {
+  width: 3rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  pre[data-theme="light"],
+  code[data-theme="light"] {
+    display: none;
+  }
+  code .highlighted {
+    background: theme("colors.gray.900");
+  }
+
+  code .word {
+    background: theme("colors.gray.700");
+    @apply rounded-sm;
+  }
+}
+
+@media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) {
+  pre[data-theme="dark"],
+  code[data-theme="dark"] {
+    display: none;
+  }
+  code .highlighted {
+    background: theme("colors.gray.200");
+  }
+
+  code .word {
+    background: theme("colors.gray.300");
+    @apply rounded-sm;
+  }
+}
