@@ -30,7 +30,6 @@ const processor = unified()
   .use(remarkParseFrontmatter)
   .use(remarkRehype)
   .use(rehypePrettyCode, {
-    // keepBackground: true,
     theme: { light: "github-light", dark: "github-dark" },
     onVisitLine(node) {
       if (node.children.length === 0) {
@@ -81,6 +80,7 @@ export async function getPosts(omitContent = false) {
 }
 
 export async function getPost(slug: string): Promise<Post> {
+  const ttl = process.env.NODE_ENV === "production" ? 300_000 : 0;
   return cachified({
     key: `post-${slug}`,
     cache: lru,
@@ -104,7 +104,7 @@ export async function getPost(slug: string): Promise<Post> {
         readTime: readTime(postFile),
       } as Post;
     },
-    ttl: 300_000, // 5 minutes in MS
+    ttl, // 5 minutes in MS
     staleWhileRevalidate: 86400_000, // 1 day in MS
   });
 }

@@ -1,4 +1,4 @@
-import type { DataFunctionArgs } from "@remix-run/node";
+import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
 import {
   isRouteErrorResponse,
   useLoaderData,
@@ -7,6 +7,30 @@ import {
 import { notFound } from "remix-utils";
 import type { Post } from "~/lib/posts.server";
 import { getPost, getPosts } from "~/lib/posts.server";
+
+export const meta: V2_MetaFunction = ({ params, data, location, matches }) => {
+  return [
+    { title: data.post.title },
+    { name: "description", content: data.post.description },
+    { name: "twitter:card", content: "summary" },
+    { name: "twitter:site", content: "@__oscarnewman" },
+    { name: "twitter:title", content: data.post.title },
+    { name: "twitter:description", content: data.post.description },
+    {
+      name: "twitter:url",
+      content: `https://oscarnewman.me/articles/${data.post.slug}`,
+    },
+    { name: "og:title", content: data.post.title },
+    { name: "og:description", content: data.post.description },
+    {
+      name: "og:url",
+      content: `https://oscarnewman.me/articles/${data.post.slug}`,
+    },
+    { name: "og:type", content: "article" },
+    { name: "og:article:published_time", content: data.post.date },
+    { name: "og:article:author", content: "Oscar Newman" },
+  ];
+};
 
 function levenshteinEditDistance(a?: string, b?: string) {
   if (!a || !b) return 0;
@@ -66,7 +90,7 @@ export default function Article() {
   const { post } = useLoaderData<typeof loader>();
   return (
     <div className=" px-4 container mx-auto">
-      <article className="prose prose-stone prose-headings:font-mono prose-headings:font-medium dark:prose-invert text-gray-900 dark:text-gray-50 mt-10 md:mt-24 prose-pre:bg-gray-50 dark:prose-pre:bg-gray-950 prose-pre:border dark:prose-pre:border-gray-700">
+      <article className="prose prose-stone prose-headings:font-mono prose-headings:font-medium dark:prose-invert text-gray-900 dark:text-gray-50 mt-10 md:mt-24 prose-pre:bg-gray-50 dark:prose-pre:bg-gray-950 prose-pre:border dark:prose-pre:border-gray-700 prose-a:font-medium">
         <div className="not-prose pb-8 space-y-2">
           <h1 className="text-xl font-mono font-medium">{post.title}</h1>
           <p className="text-gray-500 dark:text-gray-400 font-mono gap-3 text-sm flex items-baseline">

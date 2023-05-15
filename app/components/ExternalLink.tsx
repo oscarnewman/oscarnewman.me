@@ -18,7 +18,11 @@ export default function ExternalLink({
       {...props}
     >
       {children}
-      <ArrowTopRightOnSquareIcon className="h-4 text-gray-600 dark:text-gray-400" />
+      <ArrowTopRightOnSquareIcon
+        width={16}
+        height={16}
+        className="h-4 text-gray-600 dark:text-gray-400"
+      />
     </Link>
   );
 }

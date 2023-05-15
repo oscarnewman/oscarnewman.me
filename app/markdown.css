@@ -54,8 +54,12 @@ code[data-line-numbers-max-digits="3"] > .line::before {
   code[data-theme="dark"] {
     display: none;
   }
+
+  code:has(.highlighted) .line:not(.highlighted) {
+    opacity: 0.6;
+  }
   code .highlighted {
-    background: theme("colors.gray.200");
+    background: theme("colors.gray.100");
   }
 
   code .word {

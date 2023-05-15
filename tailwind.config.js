@@ -5,6 +5,20 @@ module.exports = {
   content: ["./app/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      typography(theme) {
+        return {
+          DEFAULT: {
+            css: {
+              "code::before": {
+                content: "none",
+              },
+              "code::after": {
+                content: "none",
+              },
+            },
+          },
+        };
+      },
       colors: {
         gray: colors.stone,
       },
@@ -22,5 +36,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
 };
