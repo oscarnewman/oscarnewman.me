@@ -60,11 +60,45 @@ export type Post = PostFrontmatter & {
   readTime: number;
 };
 
-export async function getPosts(omitContent = false) {
-  const postFiles = await readdir(join(__dirname, "../posts"));
+function getPregeneratedPosts(): Post[] | null {
+  if (process.env.NODE_ENV !== "production") {
+    console.info("Force generating posts in development mode");
+    return null;
+  }
+  try {
+    const posts = require("../_generated/posts.json");
+    return posts;
+  } catch (e) {
+    return null;
+  }
+}
+
+function getPregeneratedPost(slug: string) {
+  if (process.env.NODE_ENV !== "production") {
+    console.info("Force generating posts in development mode");
+    return null;
+  }
+  const posts = getPregeneratedPosts();
+  if (!posts) return null;
+  return posts.find((post) => post.slug === slug) ?? null;
+}
+
+export async function getPosts(
+  omitContent = false,
+  dir: string = join(__dirname, "../posts")
+) {
+  const pregeneratedPosts = getPregeneratedPosts();
+  if (pregeneratedPosts) {
+    console.info("Using pregenerated posts");
+    return pregeneratedPosts;
+  }
+
+  console.info("Generating posts");
+
+  const postFiles = await readdir(dir);
 
   const posts = await Promise.all(
-    postFiles.map(async (postFile) => getPost(postFile.replace(".md", "")))
+    postFiles.map(async (postFile) => getPost(postFile.replace(".md", ""), dir))
   );
 
   return posts
@@ -79,17 +113,23 @@ export async function getPosts(omitContent = false) {
     });
 }
 
-export async function getPost(slug: string): Promise<Post> {
+export async function getPost(
+  slug: string,
+  basePath: string = join(__dirname, `../posts`)
+): Promise<Post> {
   const ttl = process.env.NODE_ENV === "production" ? 300_000 : 0;
   return cachified({
     key: `post-${slug}`,
     cache: lru,
     async getFreshValue() {
+      const pregeneratedPost = getPregeneratedPost(slug);
+      if (pregeneratedPost) {
+        console.info(`getFreshValue: ${slug} (pregenerated)`);
+        return pregeneratedPost;
+      }
+
       console.info(`getFreshValue: ${slug}`);
-      const postFile = await readFile(
-        join(__dirname, `../posts/${slug}.md`),
-        "utf-8"
-      );
+      const postFile = await readFile(join(basePath, `/${slug}.md`), "utf-8");
       const result = await processor.process(postFile);
       const frontmatter = postFrontmatterSchema.parse(result.data.frontmatter);
 
