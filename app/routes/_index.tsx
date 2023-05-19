@@ -5,6 +5,12 @@ import { Group } from "~/components/Group";
 import { LinkedItem } from "~/components/LinkedItem";
 import { LinkedItemList } from "~/components/LinkedItemList";
 import { getPosts } from "~/lib/posts.server";
+import mePng from "~/assets/me.png";
+import mePng2x from "~/assets/me@2x.png";
+import meWebp from "~/assets/me.webp";
+import meWebp2x from "~/assets/me@2x.webp"
+import meAvif from "~/assets/me.avif";
+import meAvif2x from "~/assets/me@2x.avif";
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -28,6 +34,18 @@ export default function Index() {
   return (
     <div className="container px-4 mx-auto mt-10 md:mt-24 relative flex-col lg:flex-row flex gap-12 pb-24">
       <div className="space-y-8 flex-shrink-0 md:sticky md:top-16 md:self-start">
+        <picture className="rounded-full">
+          <source srcSet={`${meAvif}, ${meAvif2x} 2x`} type="image/avif" />
+          <source srcSet={`${meWebp}, ${meWebp2x} 2x`} type="image/webp" />
+          <source srcSet={`${mePng}, ${mePng2x} 2x`} className="" />
+          <img
+            src={mePng}
+            width={90}
+            height={90}
+            alt="Oscar Newman"
+            className="rounded-full"
+          />
+        </picture>
         <h1 className="text-xl font-medium font-mono">👋 Howdy, I'm Oscar.</h1>
         <div className="max-w-lg font-sans leading-7 space-y-4">
           <p>

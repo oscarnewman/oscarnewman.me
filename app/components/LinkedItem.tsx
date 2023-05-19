@@ -43,7 +43,7 @@ export function LinkedItem({
       {description && <p className="leading-6 text-sm">{description}</p>}
       {date && (
         <p className="text-sm text-gray-500 dark:text-gray-400 font-mono">
-          {new Date("2023-05-10").toLocaleString("en-US", {
+          {date.toLocaleString("en-US", {
             month: "long",
             day: "2-digit",
             year: "numeric",
