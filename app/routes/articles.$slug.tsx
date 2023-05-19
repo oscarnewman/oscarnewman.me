@@ -1,4 +1,4 @@
-import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
+import type { DataFunctionArgs, LinksFunction, V2_MetaFunction } from "@remix-run/node";
 import {
   isRouteErrorResponse,
   useLoaderData,
@@ -7,6 +7,8 @@ import {
 import { notFound } from "remix-utils";
 import type { Post } from "~/lib/posts.server";
 import { getPost, getPosts } from "~/lib/posts.server";
+import markdownCss from "~/markdown.css";
+
 
 export const meta: V2_MetaFunction = ({ params, data, location, matches }) => {
   return [
@@ -31,6 +33,10 @@ export const meta: V2_MetaFunction = ({ params, data, location, matches }) => {
     { name: "og:article:author", content: "Oscar Newman" },
   ];
 };
+
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: markdownCss },
+]
 
 function levenshteinEditDistance(a?: string, b?: string) {
   if (!a || !b) return 0;

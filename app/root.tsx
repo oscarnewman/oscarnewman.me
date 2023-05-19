@@ -13,13 +13,11 @@ import {
 } from "@remix-run/react";
 import clsx from "clsx";
 import { preferences } from "~/lib/session.server";
-import markdownCss from "~/markdown.css";
 import tailwindCss from "~/tailwind.css";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   { rel: "stylesheet", href: tailwindCss },
-  { rel: "stylesheet", href: markdownCss },
 ];
 
 export async function loader({ request }: LoaderArgs) {
