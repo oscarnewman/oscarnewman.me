@@ -1,7 +1,12 @@
-import type { DataFunctionArgs } from "@remix-run/node";
+import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
+import { LinkedItem } from "~/components/LinkedItem";
 import { LinkedItemList } from "~/components/LinkedItemList";
 import { getPosts } from "~/lib/posts.server";
+
+export const meta: V2_MetaFunction = () => [
+  { title: "Writing | Oscar Newman" },
+];
 
 export async function loader({ request, params }: DataFunctionArgs) {
   const posts = await getPosts();
@@ -18,24 +23,13 @@ export default function Articles() {
 
       <LinkedItemList>
         {posts.map((post) => (
-          <Link
+          <LinkedItem
             key={post.slug}
-            to={`/articles/${post.slug}`}
-            className="max-w-xl space-y-1 hover:border-gray-300 border border-transparent block p-2 "
-          >
-            <h3 className="font-bold font-mono underline text-sm">
-              {post.title}
-            </h3>
-            <p className="leading-6 text-sm">{post.description}</p>
-            <p className="text-sm text-gray-400">
-              {new Date(post.date).toLocaleString("en-US", {
-                month: "long",
-                day: "2-digit",
-                year: "numeric",
-                timeZone: "UTC",
-              })}
-            </p>
-          </Link>
+            href={`/articles/${post.slug}`}
+            title={post.title}
+            description={post.description}
+            date={new Date(post.date)}
+          />
         ))}
       </LinkedItemList>
     </div>

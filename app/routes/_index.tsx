@@ -1,5 +1,5 @@
 import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useRouteLoaderData } from "@remix-run/react";
 import ExternalLink from "~/components/ExternalLink";
 import { Group } from "~/components/Group";
 import { LinkedItem } from "~/components/LinkedItem";
@@ -8,9 +8,10 @@ import { getPosts } from "~/lib/posts.server";
 import mePng from "~/assets/me.png";
 import mePng2x from "~/assets/me@2x.png";
 import meWebp from "~/assets/me.webp";
-import meWebp2x from "~/assets/me@2x.webp"
+import meWebp2x from "~/assets/me@2x.webp";
 import meAvif from "~/assets/me.avif";
 import meAvif2x from "~/assets/me@2x.avif";
+import type { RootLoaderData } from "~/root";
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -72,11 +73,9 @@ export default function Index() {
           <LinkedItemList>
             <LinkedItem
               external
-              href="https://www.youtube.com/live/wobP9yhrmhQ?feature=share&t=20019"
+              href="https://www.youtube.com/watch?v=-qU56TTRdnk"
               title="Hybrid native apps powered by Remix"
               badge="Remix Conf 2023"
-              description="How to embed a Remix app in a native shell while still delivering a great user and developer experience."
-              date={new Date("2023-05-10")}
             />
           </LinkedItemList>
         </Group>

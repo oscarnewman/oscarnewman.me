@@ -34,6 +34,8 @@ export async function loader({ request }: LoaderArgs) {
   };
 }
 
+export type RootLoaderData = Awaited<ReturnType<typeof loader>>;
+
 export default function App() {
   const settings = useLoaderData<typeof loader>();
   return (
@@ -59,6 +61,15 @@ export default function App() {
             html.no-css code[data-theme="dark"] {
               display: none;
             }
+
+            html.no-css {
+              max-width: max(calc(100vw - 40ch), 65ch);
+              margin: 0 auto;
+            }
+
+            html.no-css body {
+              max-width: 65ch;
+
             `,
             }}
           ></style>

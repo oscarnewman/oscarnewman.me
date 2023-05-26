@@ -1,5 +1,6 @@
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
-import { Link } from "@remix-run/react";
+import { Link, useRouteError, useRouteLoaderData } from "@remix-run/react";
+import type { RootLoaderData } from "~/root";
 
 export type LinkedItemProps = {
   href: string;
@@ -8,6 +9,7 @@ export type LinkedItemProps = {
   date?: Date;
   description?: string;
   title: string;
+  onlyLinkTitle?: boolean;
 };
 
 export function LinkedItem({
@@ -17,12 +19,39 @@ export function LinkedItem({
   date,
   description,
   title,
+  onlyLinkTitle,
 }: LinkedItemProps) {
+  const { cssEnabled } = useRouteLoaderData("root") as RootLoaderData;
+  if (!cssEnabled) {
+    return (
+      <div>
+        {badge && <p>{badge}</p>}
+        <Link
+          to={href}
+          {...(external ? { target: "_blank" } : {})}
+          prefetch={external ? "none" : "render"}
+        >
+          <h3>{title}</h3>
+        </Link>
+        {description && <p>{description}</p>}
+        {date && (
+          <time dateTime={date.toString()}>
+            {date.toLocaleString("en-US", {
+              month: "long",
+              day: "2-digit",
+              year: "numeric",
+              timeZone: "UTC",
+            })}
+          </time>
+        )}
+      </div>
+    );
+  }
   return (
     <Link
       to={href}
       {...(external ? { target: "_blank" } : {})}
-      className="max-w-xl space-y-1 hover:border-gray-300 dark:hover:border-gray-600 border border-transparent block p-2"
+      className="linked-item max-w-xl space-y-1 hover:border-gray-300 dark:hover:border-gray-600 border border-transparent block p-2"
       prefetch={external ? "none" : "render"}
     >
       {badge && (
@@ -31,12 +60,12 @@ export function LinkedItem({
         </p>
       )}
       <h3 className="font-bold font-mono underline text-sm flex items-center gap-2">
-        {title}
+        <span className="title">{title}</span>
         {external && (
           <ArrowTopRightOnSquareIcon
             width={16}
             height={16}
-            className="h-4 text-gray-600 dark:text-gray-400"
+            className="h-4 text-gray-600 dark:text-gray-400 flex-shrink-0"
           />
         )}
       </h3>
