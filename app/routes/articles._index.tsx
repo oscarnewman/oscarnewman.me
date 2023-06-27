@@ -1,5 +1,5 @@
 import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { LinkedItem } from "~/components/LinkedItem";
 import { LinkedItemList } from "~/components/LinkedItemList";
 import { getPosts } from "~/lib/posts.server";
