@@ -39,3 +39,7 @@ npm run deploy
 You can run `flyctl info` to get the url and ip address of your server.
 
 Check out the [fly docs](https://fly.io/docs/getting-started/node/) for more information.
+
+# I screwed up and need to noop deploy counter:
+
+|
