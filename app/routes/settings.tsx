@@ -1,11 +1,11 @@
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import { useEffect } from "react";
 import { SectionTitle } from "~/components/SectionTitle";
 import { preferences } from "~/lib/session.server";
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const session = await preferences.getSession(request.headers.get("Cookie"));
 
   const javascriptEnabled = session.get("javascriptEnabled") ?? true;
@@ -67,7 +67,7 @@ export default function Settings() {
   );
 }
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
 
   const session = await preferences.getSession(request.headers.get("Cookie"));

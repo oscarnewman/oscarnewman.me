@@ -1,19 +1,18 @@
-import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
-import { useLoaderData, useRouteLoaderData } from "@remix-run/react";
+import type { DataFunctionArgs, MetaFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import meAvif from "~/assets/me.avif";
+import mePng from "~/assets/me.png";
+import meWebp from "~/assets/me.webp";
+import meAvif2x from "~/assets/me@2x.avif";
+import mePng2x from "~/assets/me@2x.png";
+import meWebp2x from "~/assets/me@2x.webp";
 import ExternalLink from "~/components/ExternalLink";
 import { Group } from "~/components/Group";
 import { LinkedItem } from "~/components/LinkedItem";
 import { LinkedItemList } from "~/components/LinkedItemList";
 import { getPosts } from "~/lib/posts.server";
-import mePng from "~/assets/me.png";
-import mePng2x from "~/assets/me@2x.png";
-import meWebp from "~/assets/me.webp";
-import meWebp2x from "~/assets/me@2x.webp";
-import meAvif from "~/assets/me.avif";
-import meAvif2x from "~/assets/me@2x.avif";
-import type { RootLoaderData } from "~/root";
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [
     { title: "Oscar Newman" },
     {

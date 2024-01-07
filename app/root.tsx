@@ -1,5 +1,5 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction, LoaderArgs } from "@remix-run/node";
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import {
   Link,
   Links,
@@ -20,7 +20,7 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindCss },
 ];
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const session = await preferences.getSession(request.headers.get("Cookie"));
 
   const javascriptEnabled = session.get("javascriptEnabled") ?? true;

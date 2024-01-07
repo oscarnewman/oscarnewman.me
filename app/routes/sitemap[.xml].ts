@@ -35,7 +35,7 @@ export async function loader() {
           .map((key) => {
             return `
                 <url>
-                    <loc>${baseUrl}${otherPages[key]}</loc>
+                    <loc>${baseUrl}${otherPages[key as keyof typeof otherPages]}</loc>
                 </url>
                 `;
           })

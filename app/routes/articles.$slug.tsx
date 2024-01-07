@@ -1,42 +1,46 @@
-import type { DataFunctionArgs, LinksFunction, V2_MetaFunction } from "@remix-run/node";
+import type {
+  DataFunctionArgs,
+  LinksFunction,
+  MetaFunction,
+} from "@remix-run/node";
 import {
   isRouteErrorResponse,
+  json,
   useLoaderData,
   useRouteError,
 } from "@remix-run/react";
-import { notFound } from "remix-utils";
 import type { Post } from "~/lib/posts.server";
 import { getPost, getPosts } from "~/lib/posts.server";
 import markdownCss from "~/markdown.css";
 
-
-export const meta: V2_MetaFunction = ({ params, data, location, matches }) => {
+export const meta: MetaFunction = ({ params, data, location, matches }) => {
+  let d = data as any
   return [
-    { title: data.post.title },
-    { name: "description", content: data.post.description },
+    { title: d.post.title },
+    { name: "description", content: d.post.description },
     { name: "twitter:card", content: "summary" },
     { name: "twitter:site", content: "@__oscarnewman" },
-    { name: "twitter:title", content: data.post.title },
-    { name: "twitter:description", content: data.post.description },
+    { name: "twitter:title", content: d.post.title },
+    { name: "twitter:description", content: d.post.description },
     {
       name: "twitter:url",
-      content: `https://oscarnewman.me/articles/${data.post.slug}`,
+      content: `https://oscarnewman.me/articles/${d.post.slug}`,
     },
-    { name: "og:title", content: data.post.title },
-    { name: "og:description", content: data.post.description },
+    { name: "og:title", content: d.post.title },
+    { name: "og:description", content: d.post.description },
     {
       name: "og:url",
-      content: `https://oscarnewman.me/articles/${data.post.slug}`,
+      content: `https://oscarnewman.me/articles/${d.post.slug}`,
     },
     { name: "og:type", content: "article" },
-    { name: "og:article:published_time", content: data.post.date },
+    { name: "og:article:published_time", content: d.post.date },
     { name: "og:article:author", content: "Oscar Newman" },
   ];
 };
 
 export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: markdownCss },
-]
+  { rel: "stylesheet", href: markdownCss },
+];
 
 function levenshteinEditDistance(a?: string, b?: string) {
   if (!a || !b) return 0;
@@ -71,7 +75,7 @@ function levenshteinEditDistance(a?: string, b?: string) {
 
 export async function loader({ request, params }: DataFunctionArgs) {
   if (!params.slug) {
-    throw notFound({});
+    throw new Response(null, { status: 404 });
   }
   try {
     const post = await getPost(params.slug);
@@ -85,10 +89,13 @@ export async function loader({ request, params }: DataFunctionArgs) {
       (post) => levenshteinEditDistance(post.slug, params.slug) < 5
     );
 
-    throw notFound({
-      slug: params.slug,
-      similar,
-    });
+    throw json(
+      {
+        slug: params.slug,
+        similar,
+      },
+      { status: 404 }
+    );
   }
 }
 

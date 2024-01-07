@@ -1,3 +1,5 @@
+const { createRoutesFromFolders } = require("@remix-run/v1-route-convention");
+
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
   ignoredRouteFiles: ["**/.*"],
@@ -8,13 +10,11 @@ module.exports = {
   // serverDependenciesToBundle: [/.*/],
   // match everything but rehype-pretty-code
   serverDependenciesToBundle: [/^(?!rehype-pretty-code$).*$/],
-  future: {
-    v2_errorBoundary: true,
-    v2_meta: true,
-    v2_normalizeFormMethod: true,
-    v2_routeConvention: true,
-    unstable_dev: true,
-  },
+  serverModuleFormat: "cjs",
   tailwind: true,
   postcss: true,
+  // routes(defineRoutes) {
+  //   // uses the v1 convention, works in v1.15+ and v2
+  //   return createRoutesFromFolders(defineRoutes);
+  // },
 };

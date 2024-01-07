@@ -1,14 +1,14 @@
-import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { LinkedItem } from "~/components/LinkedItem";
 import { LinkedItemList } from "~/components/LinkedItemList";
 import { getPosts } from "~/lib/posts.server";
 
-export const meta: V2_MetaFunction = () => [
+export const meta: MetaFunction = () => [
   { title: "Writing | Oscar Newman" },
 ];
 
-export async function loader({ request, params }: DataFunctionArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   const posts = await getPosts();
 
   return {
