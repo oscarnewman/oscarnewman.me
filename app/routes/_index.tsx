@@ -96,12 +96,41 @@ export default function Index() {
         <Group title="Projects">
           <LinkedItemList>
             <LinkedItem
+              title="Textual"
+              href="https://www.textual.wedding"
+              external
+              description="Guest experience copilot for weddings. Collect candid photo and coordinate with guests via SMS."
+            />
+            <LinkedItem
+              title="TabType"
+              href="https://tabtype.co"
+              external
+              description="Turn you browser tabs into beautiful slides with a simple notion-like editor."
+            />
+            <LinkedItem
+              title="AdSync"
+              href="https://www.useadsync.com"
+              external
+              description="A dashboard to run all your ads, with AI-enhanced tools to help you get the most out of your ads."
+            />
+            <LinkedItem
+              title="writ.link"
+              href="https://www.writ.link"
+              external
+              description="A beautiful text-first link in bio site built for academics and writers."
+            />
+            <LinkedItem
               title="Comment Click | Comment and collaborate directly on your site"
               href="https://comment.click"
               external
               description="Just like Figma and Google Docs—have discussions and give feedback where it matters, no more screenshots or third-party tools to wrangle."
             />
-
+            <LinkedItem
+              title="Electric Insured"
+              href="https://electricinsured.com"
+              external
+              description="Affordable theft & loss insurance tailored for e-bikes"
+            />
             <LinkedItem
               title="The Telehealth Report"
               href="/Telehealth.pdf"
