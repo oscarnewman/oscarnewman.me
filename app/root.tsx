@@ -25,7 +25,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const javascriptEnabled = session.get("javascriptEnabled") ?? true;
   const cssEnabled = session.get("cssEnabled") ?? true;
-  const analyticsEnabled = session.get("analyticsEnabled") ?? true;
+  const path = new URL(request.url).pathname;
+  const isProgressPage = path === "/progress" || path.startsWith("/progress/");
+  const analyticsEnabled = !isProgressPage && (session.get("analyticsEnabled") ?? true);
 
   return {
     javascriptEnabled,
